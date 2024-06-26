@@ -3,38 +3,81 @@ import { useMutation } from "react-query";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-type CreateUserRequest = {
-  auth0Id: string;
-  email: string;
-};
-
-//Custom Hook
 export const useCreateMyUser = () => {
   const { getAccessTokenSilently } = useAuth0();
+
+  type CreateUserRequest = {
+    auth0Id: string;
+    email: string;
+  };
 
   const createMyUserRequest = async (user: CreateUserRequest) => {
     const accessToken = await getAccessTokenSilently();
     const response = await fetch(`${API_BASE_URL}/api/my/user`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
 
-    if(!response.ok) {
+    if (!response.ok) {
       throw new Error("Failed to create user");
     }
   };
 
-  //passing fetch request to useMutation hook that is gonna handle all those stuff
-  const { mutateAsync: createUser, isLoading, isError, isSuccess } = useMutation(createMyUserRequest);
+  const {
+    mutateAsync: createUser,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useMutation(createMyUserRequest);
 
   return {
     createUser,
-    isLoading, 
+    isLoading,
     isError,
     isSuccess,
-  }
+  };
+};
+
+type UpdateMyUserRequest = {
+  name: string;
+  addressLine1: string;
+  city: string;
+  country: string;
+};
+
+export const useUpdateMyUser = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  const updateMyUserRequest = async (formData: UpdateMyUserRequest) => {
+    const accessToken = await getAccessTokenSilently();
+
+    const response = await fetch(`${API_BASE_URL}/api/my/user`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update user");
+    }
+
+    return response.json();
+  };
+
+  const {
+    mutateAsync: updateUser,
+    isLoading,
+    isSuccess,
+    error,
+    reset,
+  } = useMutation(updateMyUserRequest);
+
+  return { updateUser, isLoading };
 };
