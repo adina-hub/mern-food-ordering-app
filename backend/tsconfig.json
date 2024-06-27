@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    //folder that holds the distribution
+    "outDir": "./dist",
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
