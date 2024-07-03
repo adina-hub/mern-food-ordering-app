@@ -20,7 +20,6 @@ const ImageSection = () => {
           search results. Adding a new image will overwrite the existing one.
         </FormDescription>
       </div>
-      <div className="flex flex-col gap-8 w-[50%]">
         <FormField
           control={control}
           name="imageFile"
@@ -43,7 +42,6 @@ const ImageSection = () => {
           )}
         />
       </div>
-    </div>
   );
 };
 
