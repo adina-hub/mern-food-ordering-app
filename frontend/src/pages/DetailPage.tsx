@@ -80,8 +80,8 @@ const DetailPage = () => {
   };
 
   const onCheckout = (userFormData: UserFormData) => {
-console.log('User form data', userFormData)
-  }
+    console.log("User form data", userFormData);
+  };
 
   if (isLoading || !restaurant) {
     return "Loading...";
@@ -114,7 +114,10 @@ console.log('User form data', userFormData)
               removeFromCart={removeFromCart}
             />
             <CardFooter>
-              <CheckoutButton disabled={cartItems.length === 0} onCheckout={onCheckout} />
+              <CheckoutButton
+                disabled={cartItems.length === 0}
+                onCheckout={onCheckout}
+              />
             </CardFooter>
           </Card>
         </div>
