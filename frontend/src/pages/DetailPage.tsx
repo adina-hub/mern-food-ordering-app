@@ -1,9 +1,10 @@
 import { useGetRestaurant } from "@/api/RestaurantApi";
+import CheckoutButton from "@/components/CheckoutButton";
 import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { MenuItem as MenuItemType } from "@/types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -19,7 +20,10 @@ const DetailPage = () => {
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
+    return storedCartItems ? JSON.parse(storedCartItems) : [];
+  });
 
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItems) => {
@@ -49,6 +53,12 @@ const DetailPage = () => {
           },
         ];
       }
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
       return updatedCartItems;
     });
   };
@@ -58,6 +68,12 @@ const DetailPage = () => {
       const updatedCartItems = prevCartItems.filter(
         (item) => cartItem._id !== item._id
       );
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
       return updatedCartItems;
     });
   };
@@ -87,7 +103,14 @@ const DetailPage = () => {
         </div>
         <div>
           <Card>
-            <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart} />
+            <OrderSummary
+              restaurant={restaurant}
+              cartItems={cartItems}
+              removeFromCart={removeFromCart}
+            />
+            <CardFooter>
+              <CheckoutButton />
+            </CardFooter>
           </Card>
         </div>
       </div>
