@@ -85,7 +85,10 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     });
     formDataJson.menuItems.forEach((menuItem, index) => {
       formData.append(`menuItems[${index}][name]`, menuItem.name);
-      formData.append(`menuItems[${index}][price]`, menuItem.price.toString());
+      formData.append(
+        `menuItems[${index}][price]`,
+        (menuItem.price * 100).toString()
+      );
     });
 
     if (formDataJson.imageFile) {
@@ -101,12 +104,12 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     }
 
     const deliveryPriceFormatted = parseInt(
-      restaurant.deliveryPrice.toFixed(2)
+      (restaurant.deliveryPrice / 100).toFixed(2)
     );
 
     const menuItemsFormatted = restaurant.menuItems.map((item) => ({
       ...item,
-      price: parseInt(item.price.toFixed(2)),
+      price: parseInt((item.price / 100).toFixed(2)),
     }));
 
     const updatedRestaurant = {
