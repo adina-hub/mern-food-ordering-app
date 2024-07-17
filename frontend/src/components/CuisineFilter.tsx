@@ -1,7 +1,7 @@
 import { cuisineList } from "@/config/restaurant-options-config";
-import { ChangeEvent } from "react";
 import { Label } from "./ui/label";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { ChangeEvent } from "react";
 import { Button } from "./ui/button";
 
 type Props = {
@@ -17,7 +17,6 @@ const CuisineFilter = ({
   isExpanded,
   onExpandedClick,
 }: Props) => {
-  const handleCuisinesReset = () => onChange([]);
   const handleCuisinesChange = (event: ChangeEvent<HTMLInputElement>) => {
     const clickedCuisine = event.target.value;
     const isChecked = event.target.checked;
@@ -29,24 +28,27 @@ const CuisineFilter = ({
     onChange(newCuisinesList);
   };
 
+  const handleCuisinesReset = () => onChange([]);
+
   return (
     <>
       <div className="flex justify-between items-center px-2">
-        <div className="text-md font-semibold mb-2">Filter by cuisine</div>
+        <div className="text-md font-semibold mb-2">Filter By Cuisine</div>
         <div
           onClick={handleCuisinesReset}
           className="text-sm font-semibold mb-2 underline cursor-pointer text-blue-500"
         >
-          Reset filters
+          Reset Filters
         </div>
       </div>
+
       <div className="space-y-2 flex flex-col">
         {cuisineList
           .slice(0, isExpanded ? cuisineList.length : 7)
-          .map((cuisine) => {
+          .map((cuisine,index) => {
             const isSelected = selectedCuisines.includes(cuisine);
             return (
-              <div className="flex">
+              <div className="flex" key={index}>
                 <input
                   id={`cuisine_${cuisine}`}
                   type="checkbox"
@@ -69,18 +71,19 @@ const CuisineFilter = ({
               </div>
             );
           })}
+
         <Button
-          variant="link"
-          className="mt-1 flex-1"
           onClick={onExpandedClick}
+          variant="link"
+          className="mt-4 flex-1"
         >
           {isExpanded ? (
             <span className="flex flex-row items-center">
-              View less <ChevronUp />
+              View Less <ChevronUp />
             </span>
           ) : (
             <span className="flex flex-row items-center">
-              View more <ChevronDown />
+              View More <ChevronDown />
             </span>
           )}
         </Button>

@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
 
@@ -26,7 +26,7 @@ export const jwtParse = async (
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    return res.sendStatus(401);
+return res.sendStatus(401);
   }
 
   const token = authorization.split(" ")[1];

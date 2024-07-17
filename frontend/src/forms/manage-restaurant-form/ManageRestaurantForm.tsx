@@ -88,8 +88,6 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     form.reset(updatedRestaurant);
   }, [form, restaurant]);
 
-
-  {console.log(restaurant?.restaurantName, "HERE --------------")}
   const onSubmit = (formDataJson: RestaurantFormData) => {
     const formData = new FormData();
 

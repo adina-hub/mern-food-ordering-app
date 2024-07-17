@@ -5,7 +5,12 @@ import {
 } from "@/api/MyRestaurantApi";
 import { useGetMyOrders } from "@/api/OrderApi";
 import OrderItemCard from "@/components/OrderItemCard";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
 
 const ManageRestaurantPage = () => {
@@ -19,8 +24,8 @@ const ManageRestaurantPage = () => {
   const isEditing = !!restaurant;
 
   return (
-    <Tabs>
-      <TabsList defaultValue="orders">
+    <Tabs defaultValue="orders">
+      <TabsList>
         <TabsTrigger value="orders">Orders</TabsTrigger>
         <TabsTrigger value="manage-restaurant">Manage Restaurant</TabsTrigger>
       </TabsList>
@@ -41,7 +46,6 @@ const ManageRestaurantPage = () => {
         />
       </TabsContent>
     </Tabs>
-    
   );
 };
 
